@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}مقارنة أوعية الادخار: شهادة أم توفير أم ذهب؟ — حساباتى{% endblock %}
+{% block description %}قارن مباشرة بين أفضل شهادة ادخار، وأفضل حساب توفير، وأداء الذهب التاريخي لنفس المبلغ والمدة.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>شهادة، ولا توفير، ولا ذهب؟</h1>
+  <p class="lede">حيرة يومية. اكتب المبلغ والمدة وشوف المقارنة بالأرقام. فرق مهم: عائد الشهادة والتوفير معلن ومضمون، أما الذهب فأداؤه هنا تاريخي بس — مش وعد بعائد.</p>
+</section>
+
+<section class="container">
+  <div class="card" style="max-width:640px; margin-bottom:24px;">
+    <div class="field">
+      <label for="amount">المبلغ <span class="field-value" id="amountVal">100,000</span> ج.م</label>
+      <div class="slider-row">
+        <input type="range" id="amountRange" min="1000" max="5000000" step="1000" value="100000">
+        <input type="number" id="amount" min="1" value="100000">
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:6px;">
+      <label for="years">المدة <span class="field-value" id="yearsVal">1</span> سنة</label>
+      <div class="slider-row">
+        <input type="range" id="yearsRange" min="1" max="7" step="1" value="1">
+        <input type="number" id="years" min="1" max="7" value="1">
+      </div>
+    </div>
+  </div>
+
+  <div id="compareResults" class="compare-grid"></div>
+  <div class="alert alert-info" id="goldNote" style="margin-top:20px; max-width:640px; display:none;"></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    const { formatNumber, bindSlider, postJSON, debounce } = window.Hasabaty;
+    bindSlider(document.getElementById("amountRange"), document.getElementById("amount"), (v) => { document.getElementById("amountVal").textContent = formatNumber(v, 0); calc(); });
+    bindSlider(document.getElementById("yearsRange"), document.getElementById("years"), (v) => { document.getElementById("yearsVal").textContent = v; calc(); });
+
+    const LABELS = { certificate: "شهادة ادخار", savings: "حساب توفير", gold: "ذهب" };
+
+    function rowHtml(row) {
+      let stats = `<div class="stat"><span>السيولة</span><b style="font-size:0.78rem; font-weight:600;">${row.liquidity}</b></div>
+                   <div class="stat"><span>مستوى المخاطرة</span><b style="font-size:0.78rem; font-weight:600;">${row.risk}</b></div>`;
+      if (row.option === "gold") {
+        const chg = row.historical_change_percent_last_year;
+        stats = `<div class="rate ${chg >= 0 ? 'value-gain' : 'value-cost'}">${chg >= 0 ? "+" : ""}${chg}%</div><p class="text-soft" style="font-size:0.78rem;">تغيّر سعر الجرام آخر 12 شهر (تاريخي، مش عائد متوقع)</p>` + stats + `<div class="stat"><span>الوزن بسعر اليوم</span><b>${formatNumber(row.grams_today, 2)} جم</b></div>`;
+      } else {
+        stats = `<div class="rate">${row.rate}%</div><p class="text-soft" style="font-size:0.78rem;">العائد السنوي المعلن</p><div class="stat"><span>إجمالي متوقع للمدة</span><b class="value-gain">${formatNumber(row.expected_total_profit, 0)} ج.م</b></div>` + stats;
+      }
+      return `<div class="compare-card"><div class="bank">${LABELS[row.option]}</div><div class="name">${row.label}</div>${stats}</div>`;
+    }
+
+    const calc = debounce(async () => {
+      try {
+        const data = await postJSON("/compare-investments", {
+          amount: Number(document.getElementById("amount").value),
+          duration_years: Number(document.getElementById("years").value),
+        });
+        document.getElementById("compareResults").innerHTML = data.rows.map(rowHtml).join("");
+        const goldNoteEl = document.getElementById("goldNote");
+        if (data.gold_note) {
+          goldNoteEl.textContent = data.gold_note;
+          goldNoteEl.style.display = "block";
+        } else {
+          goldNoteEl.style.display = "none";
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }, 250);
+    calc();
+  })();
+</script>
+{% endblock %}

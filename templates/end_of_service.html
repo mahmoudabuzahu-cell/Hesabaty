@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}مكافأة مدة الخدمة غير المؤمن عليها — حساباتى{% endblock %}
+{% block description %}حاسبة مكافأة مدة الخدمة غير المؤمن عليها في القانون المصري — ووضحنا مين اللي بينطبق عليه الحساب ده تحديداً.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>مكافأة مدة الخدمة غير المؤمن عليها</h1>
+</section>
+
+<section class="container">
+  <div class="alert alert-warn section-narrow" style="margin-bottom:30px;">
+    <strong>مهم قبل ما تحسب:</strong> في القانون المصري مفيش "مكافأة نهاية خدمة" عامة يصرفها كل صاحب عمل لكل موظف بيسيب شغله، زي بعض دول الخليج. لو كنت مؤمَّن عليك طول مدة خدمتك، مستحقاتك عند ترك العمل بتكون معاش أو تعويض دفعة واحدة من الهيئة القومية للتأمين الاجتماعي، مش الحاسبة دي.
+    <br><br>
+    الحاسبة دي خاصة تحديداً بمكافأة <strong>مدة الخدمة غير المؤمن عليها</strong> — يعني مدة اشتغلتها فعلاً بس من غير اشتراك تأميني عنها، زي مدة عمل قبل سن 18 سنة، أو استمرارك في العمل بعد سن 60. طبقاً لقانون العمل رقم 14 لسنة 2025 وقانون التأمينات الاجتماعية رقم 148 لسنة 2019.
+  </div>
+
+  <div class="calc-layout">
+    <div class="card">
+      <div class="field">
+        <label>آخر راتب شهري (أساسي) <span class="field-value" id="salaryOut">8,000</span> ج.م</label>
+        <div class="slider-row">
+          <input type="number" id="salaryNum" value="8000" min="500" max="500000" step="100">
+          <input type="range" id="salaryRange" value="8000" min="500" max="500000" step="100">
+        </div>
+      </div>
+      <div class="field">
+        <label>عدد سنوات الخدمة غير المؤمن عليها <span class="field-value" id="yearsOut">3</span></label>
+        <div class="slider-row">
+          <input type="number" id="yearsNum" value="3" min="0" max="40" step="1">
+          <input type="range" id="yearsRange" value="3" min="0" max="40" step="1">
+        </div>
+      </div>
+    </div>
+    <div class="result-panel">
+      <div class="result-hero">
+        <div><span class="figure num" id="rTotal">—</span><span class="unit">ج.م</span></div>
+        <div class="caption">إجمالي المكافأة المقدرة</div>
+      </div>
+      <div class="result-rows">
+        <div class="result-row"><span class="k">سنوات بنصف شهر (أول 5 سنين)</span><span class="v num" id="rHalf">—</span></div>
+        <div class="result-row"><span class="k">سنوات بشهر كامل (بعد أول 5 سنين)</span><span class="v num" id="rFull">—</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section container section-narrow">
+  <h2>إزاي بتشتغل الحاسبة؟</h2>
+  <p>القانون المصري بيحسب مكافأة مدة الخدمة غير المؤمن عليها بمعادلة بسيطة: نص شهر من الراتب عن كل سنة من أول 5 سنين، وشهر كامل عن كل سنة بعد كده. مثال: لو عندك 7 سنين مدة غير مؤمن عليها وراتبك 8,000 جنيه، المكافأة = (8,000 × 0.5 × 5) + (8,000 × 2) = 20,000 + 16,000 = 36,000 جنيه.</p>
+  <p>مهم تتأكد إن مدتك فعلاً "غير مؤمن عليها" (زي شغل قبل سن 18 أو بعد سن 60) قبل ما تستخدم الحاسبة دي، لأن لو مدتك كلها كانت مؤمن عليها من الأول، مستحقاتك بتيجي من الهيئة القومية للتأمين الاجتماعي مش من صاحب العمل مباشرة.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/end_of_service.js"></script>{% endblock %}

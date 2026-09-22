@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}حاسبة زكاة المال على الوديعة والمدخرات النقدية — حساباتى{% endblock %}
+{% block description %}احسب زكاة أموالك النقدية أو وديعتك البنكية بسهولة، بنصاب محسوب تلقائياً من سعر الذهب أو الفضة اليوم.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>حاسبة زكاة المال على الوديعة</h1>
+  <p class="lede">عندك مبلغ نقدي أو وديعة بنكية وعايز تعرف زكاتها؟ دخّل المبلغ وهنحسبلك على طول.</p>
+</section>
+
+<section class="container">
+  <div class="card" style="max-width:560px;">
+    <div class="field">
+      <label for="amount">المبلغ (نقدية + أرصدة الودائع) <span class="field-value" id="amountVal">100,000</span> ج.م</label>
+      <div class="slider-row">
+        <input type="range" id="amountRange" min="1000" max="5000000" step="1000" value="100000">
+        <input type="number" id="amount" min="1" value="100000">
+      </div>
+    </div>
+    <div class="field">
+      <label>نصاب الزكاة على أساس</label>
+      <div class="segmented" id="nisabSeg" data-value="gold">
+        <button type="button" data-value="gold" class="active">الذهب (85 جم عيار 21)</button>
+        <button type="button" data-value="silver">الفضة (595 جم)</button>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:6px;">
+      <label>هل مر عام هجري كامل (حول) على هذا المال؟</label>
+      <div class="segmented" id="hawlSeg" data-value="true">
+        <button type="button" data-value="true" class="active">أيوه، مر عليه حول</button>
+        <button type="button" data-value="false">لسه</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="calcBtn" style="width:100%;">احسب الزكاة</button>
+  </div>
+
+  <div class="result-panel" id="resultPanel" style="max-width:560px; margin-top:20px; display:none;">
+    <div class="result-hero">
+      <span class="figure num" id="rDue">—</span>
+      <span class="unit">ج.م</span>
+      <p class="caption">الزكاة المستحقة (2.5%)</p>
+    </div>
+    <div class="result-rows" id="resultRows"></div>
+  </div>
+
+  <section class="section section-narrow" style="padding-top:44px;">
+    <h2>ليه النصاب بيتغيّر كل يوم؟</h2>
+    <p>نصاب الزكاة على النقدية بيتحدد بمعادلة قيمة 85 جرام ذهب عيار 21 (أو 595 جرام فضة)، ومش برقم ثابت بالجنيه. لأن سعر الذهب بيتغيّر يومياً، قيمة النصاب بالجنيه بتتغيّر معاه — عشان كده أي حاسبة زكاة برقم نصاب ثابت من سنين ممكن تكون غلط دلوقتي. الحاسبة دي بتجيب سعر الذهب والفضة الحاليين تلقائياً وتحسب النصاب الصح لحظة ما تدخل.</p>
+    <p>عندك ذهب أو فضة أو أسهم أو ديون كمان مش بس نقدية؟ <a href="/zakat">استخدم حاسبة الزكاة الشاملة</a> عشان تحسب كل أنواع المال في مكان واحد.</p>
+  </section>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    const { formatNumber, postJSON, bindSlider } = window.Hasabaty;
+    bindSlider(document.getElementById("amountRange"), document.getElementById("amount"), (v) => (document.getElementById("amountVal").textContent = formatNumber(v, 0)));
+
+    function wireSeg(id) {
+      const el = document.getElementById(id);
+      el.querySelectorAll("button").forEach((b) =>
+        b.addEventListener("click", () => {
+          el.querySelectorAll("button").forEach((x) => x.classList.remove("active"));
+          b.classList.add("active");
+          el.dataset.value = b.dataset.value;
+        })
+      );
+    }
+    wireSeg("nisabSeg");
+    wireSeg("hawlSeg");
+
+    document.getElementById("calcBtn").addEventListener("click", async () => {
+      try {
+        const data = await postJSON("/calculate/zakat", {
+          cash_egp: Number(document.getElementById("amount").value),
+          nisab_basis: document.getElementById("nisabSeg").dataset.value,
+          hawl_passed: document.getElementById("hawlSeg").dataset.value === "true",
+        });
+        document.getElementById("rDue").textContent = formatNumber(data.zakat_due);
+        document.getElementById("resultRows").innerHTML = `
+          <div class="result-row"><span class="k">نصاب الزكاة الحالي</span><span class="v">${formatNumber(data.nisab_amount, 0)} ج.م</span></div>
+          <div class="result-row"><span class="k">بلغ النصاب؟</span><span class="v">${data.meets_nisab ? "أيوه" : "لأ"}</span></div>
+        `;
+        document.getElementById("resultPanel").style.display = "block";
+      } catch (e) {
+        alert(e.message);
+      }
+    });
+  })();
+</script>
+{% endblock %}

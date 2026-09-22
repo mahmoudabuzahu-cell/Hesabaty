@@ -1,0 +1,19 @@
+# البيئة الافتراضية
+venv/
+.venv/
+
+# مجلدات بايثون المؤقتة
+__pycache__/
+*.pyc
+
+# ملفات الأسرار الحساسة (لا ترفع ملف .env أبداً!)
+.env
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+.vscode/
+
+# ملاحظة: config/data.json و market_prices.json و egx_data.json و price_history.json
+# و inflation_data.json بتتحدث تلقائياً وقت التشغيل. سيبها في الـ repo كقيم أولية،
+# أو تجاهلها لو مبتحبش الفروق (diffs) الكتير في الـ git history بعد التشغيل.

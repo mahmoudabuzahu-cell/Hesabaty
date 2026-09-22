@@ -1,0 +1,8 @@
+{
+  "last_updated": "2026-07-27T15:00:00+00:00",
+  "status": "seed",
+  "provider": null,
+  "indices": {"EGX30": {"value": 50490.20, "change": 1.59}, "EGX70": {"value": 18124.84, "change": 1.51}},
+  "top_gainers": [], "top_losers": [], "most_active": [],
+  "note": "EGX70 آخر قيمة مؤكدة بتاريخ 27 يوليو 2026؛ للتحديث اللحظي فعّل OANOR_API_KEY (راجع README)."
+}

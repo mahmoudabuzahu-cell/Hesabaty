@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}البطاقات الائتمانية — مقارنة واستخدام بحرص — حساباتى{% endblock %}
+{% block description %}قولنا مرتبك وإيه احتياجك، ونرشحلك بطاقة ائتمان تناسبك من البنوك المصرية — مع حاسبة توضحلك تكلفة السداد بالحد الأدنى قبل ما تستخدمها.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>البطاقات الائتمانية: مقارنة وترشيح</h1>
+  <p class="lede">جاوب على سؤالين ونرشّحلك كارت من بنوك مصرية حقيقية. وتحت حاسبة بتوريك بالأرقام تكلفة إنك تستخدمه غلط.</p>
+</section>
+
+<section class="container">
+  <div class="card" style="max-width:640px; margin-bottom:24px;">
+    <div class="field">
+      <label for="income">صافي دخلك الشهري <span class="field-value" id="incomeVal">10,000</span> ج.م</label>
+      <div class="slider-row">
+        <input type="range" id="incomeRange" min="1000" max="100000" step="500" value="10000">
+        <input type="number" id="income" min="1" value="10000">
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:6px;">
+      <label>إيه أهم حاجة محتاجها من البطاقة؟</label>
+      <div class="segmented" id="needSeg" data-value="عام">
+        <button type="button" data-value="عام" class="active">أساسيات ودفع يومي</button>
+        <button type="button" data-value="كاش باك">استرداد نقدي (كاش باك)</button>
+        <button type="button" data-value="سفر">سفر وصالات مطارات</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="recommendBtn" style="width:100%; margin-top:10px;">رشحلي بطاقة</button>
+    <p id="recError" class="text-soft" style="color:var(--cost); display:none; margin-top:10px;"></p>
+  </div>
+
+  <div id="recResults" class="compare-grid" style="margin-bottom:10px;"></div>
+  <p id="recNote" class="text-soft" style="font-size:0.8rem; margin-bottom:40px;"></p>
+
+  <div class="card" style="max-width:640px;">
+    <h2 class="mt-0">استخدمها بحرص: تكلفة الحد الأدنى الحقيقية</h2>
+    <p class="text-soft" style="font-size:0.9rem;">لو سددت رصيد بطاقتك بالكامل قبل تاريخ الاستحقاق، مش هتدفع فايدة خالص. لكن لو اكتفيت بالحد الأدنى، الفايدة الشهرية العالية (أعلى بكثير من أي قرض) بتخلي الدين ياخد وقت طويل جداً يتسدد. جرب بنفسك:</p>
+
+    <div class="field">
+      <label for="balance">الرصيد المطلوب سداده <span class="field-value" id="balanceVal">20,000</span> ج.م</label>
+      <div class="slider-row">
+        <input type="range" id="balanceRange" min="500" max="200000" step="500" value="20000">
+        <input type="number" id="balance" min="1" value="20000">
+      </div>
+    </div>
+    <div class="field">
+      <label for="rate">نسبة الفايدة الشهرية <span class="field-value" id="rateVal">4</span>%</label>
+      <div class="slider-row">
+        <input type="range" id="rateRange" min="1" max="6" step="0.1" value="4">
+        <input type="number" id="rate" min="0.1" step="0.1" value="4">
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:10px;">
+      <label for="minPercent">نسبة الحد الأدنى للسداد <span class="field-value" id="minPercentVal">5</span>%
+        <span class="info-tip" tabindex="0" role="button" aria-label="توضيح">؟<span class="info-tip-bubble">أقل مبلغ لازم تدفعه شهرياً عشان البنك ميعتبرش الكارت متأخر السداد. سداد الحد الأدنى بس قانوني ومقبول، لكن الفايدة الشهرية بتتحسب على الرصيد المتبقي كله (اللي هتشتري بيه بعد كده كمان)، فالدين بياخد وقت طويل جداً يخلص وبيكلفك أضعاف قيمته الأصلية.</span></span>
+      </label>
+      <div class="slider-row">
+        <input type="range" id="minPercentRange" min="2" max="20" step="0.5" value="5">
+        <input type="number" id="minPercent" min="1" step="0.5" value="5">
+      </div>
+    </div>
+    <button class="btn btn-ghost" id="costBtn" style="width:100%;">احسب تكلفة الحد الأدنى</button>
+  </div>
+
+  <div id="costResult" class="result-panel" style="max-width:640px; margin-top:20px; display:none;">
+    <div class="result-hero">
+      <span class="figure num" id="monthsFigure">—</span>
+      <span class="unit">شهر عشان تسدد بالكامل</span>
+    </div>
+    <div class="result-rows" id="costRows"></div>
+    <p class="note" id="costNote"></p>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/credit_cards.js"></script>
+{% endblock %}

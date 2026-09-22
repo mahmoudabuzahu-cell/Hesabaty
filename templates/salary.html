@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}حاسبة إجمالي الراتب والضريبة — حساباتى{% endblock %}
+{% block description %}اعرف إجمالي الراتب الأساسي المطلوب عشان يوصلك صافي معين بعد خصم التأمينات وضريبة كسب العمل.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>إجمالي الراتب والضريبة</h1>
+  <p class="lede">اكتب الصافي اللي عايزه في إيدك، ونقوللك الإجمالي (الأساسي) المطلوب بعد التأمينات وضريبة كسب العمل لسنة {{ year }}.</p>
+</section>
+
+<section class="container">
+  <div class="calc-layout">
+    <div class="card">
+      <div class="field">
+        <label>صافي الراتب المطلوب شهرياً <span class="field-value" id="netOut">10,000</span> ج.م</label>
+        <div class="slider-row">
+          <input type="number" id="netNum" value="10000" min="1000" max="500000" step="100">
+          <input type="range" id="netRange" value="10000" min="1000" max="500000" step="100">
+        </div>
+      </div>
+      <p id="errorBox" class="alert alert-warn" style="display:none;"></p>
+    </div>
+    <div class="result-panel">
+      <div class="result-hero">
+        <div><span class="figure num" id="rGross">—</span><span class="unit">ج.م / شهرياً</span></div>
+        <div class="caption">الراتب الإجمالي (الأساسي) المطلوب</div>
+        <div class="caption" id="rGrossWords" style="font-size:0.74rem; margin-top:4px;"></div>
+      </div>
+      <div class="result-rows">
+        <div class="result-row"><span class="k">التأمين الاجتماعي الشهري</span><span class="v num" id="rIns">—</span></div>
+        <div class="result-row"><span class="k">ضريبة كسب العمل الشهرية</span><span class="v num" id="rTax">—</span></div>
+        <div class="result-row"><span class="k">صافي الراتب</span><span class="v num" id="rNet">—</span></div>
+      </div>
+      <div class="note" id="rSource"></div>
+    </div>
+  </div>
+
+  <div class="alert alert-info" style="margin-bottom:30px;">
+    الحاسبة دي بتحسب التأمين الاجتماعي الأساسي (11% بحد أقصى للأجر التأميني) وضريبة كسب العمل فقط. مش شاملة اشتراك التأمين الصحي الشامل اللي لسه بيتطبق تدريجياً بمحافظات مختلفة، ولا أي بدلات خاصة بجهة عملك — فاعتبر الرقم تقريب دقيق مش قسيمة راتب رسمية.
+  </div>
+</section>
+
+<section class="section container section-narrow">
+  <h2>إزاي بتشتغل الحاسبة؟</h2>
+  <p>الضريبة في مصر "تصاعدية على شرائح" — يعني مش كل راتبك بياخد نفس نسبة الضريبة. أول 20,000 جنيه سنوياً معفاة تماماً (الإعفاء الشخصي)، وبعدها كل شريحة من الدخل بتتحصّل عندها نسبة مختلفة (من 0% للشريحة الأولى لغاية 27.5% للجزء اللي فوق 1.2 مليون جنيه سنوياً)، مش النسبة الأعلى على كل المبلغ.</p>
+  <p>الحاسبة بتاخد "صافي راتبك المطلوب" وتحسب بالعكس (تجربة وتقريب متكرر) الراتب الإجمالي اللي لازم يوصلك بيه بعد خصم التأمينات الاجتماعية (11% على الأجر التأميني بحد أقصى) والضريبة، عشان تعرف تفاوض صح على راتبك الأساسي.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/salary.js"></script>{% endblock %}

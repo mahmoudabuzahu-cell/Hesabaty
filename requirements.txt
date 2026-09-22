@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+slowapi
+httpx
+beautifulsoup4
+pydantic
+yfinance
+jinja2

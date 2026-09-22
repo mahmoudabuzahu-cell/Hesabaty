@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}تواصل معنا — حساباتى{% endblock %}
+{% block description %}تواصل مع فريق حساباتى لأي استفسار أو ملاحظة أو رقم محتاج تحديث.{% endblock %}
+
+{% block content %}
+<section class="section container section-narrow">
+  <h1>تواصل معنا</h1>
+
+  <p>لقيت رقم غلط أو قديم، عندك اقتراح لحاسبة جديدة، أو عايز تسأل عن أي حاجة في الموقع؟ يسعدنا نسمع منك.</p>
+
+  <p>قبل ما تراسلنا، ممكن تلاقي إجابتك جاهزة في <a href="/faq">الأسئلة الشائعة</a>.</p>
+
+  <p><a class="btn btn-primary" href="mailto:{{ contact_email }}">راسلنا على {{ contact_email }}</a></p>
+
+  <p>بنحاول نرد بأسرع ما يمكن، لكن الموقع بيدار بجهد فردي فممكن يستغرق الرد شوية وقت.</p>
+</section>
+{% endblock %}

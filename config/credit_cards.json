@@ -1,0 +1,76 @@
+{
+  "checked_at": "2026-09-10",
+  "disclaimer": "الرسوم وحدود الدخل بتختلف باستمرار وبتتغير حسب عروض كل بنك، وبعضها هنا تقديري بناءً على مستوى البطاقة العام لعدم توفر رقم رسمي محدد وقت المراجعة (موضح في notes لكل بطاقة). راجع دائماً موقع البنك أو أقرب فرع للتأكد قبل التقديم.",
+  "market_facts": {
+    "grace_period_days_typical": "40-57 يوم بدون فوائد لو اتسدد الرصيد بالكامل",
+    "min_payment_percent_typical": 5,
+    "monthly_interest_rate_percent_typical": 4.0,
+    "annual_interest_rate_equivalent_note": "نسبة 3.5%-4% شهرياً على الرصيد المتبقي تعادل تقريباً 42%-48% سنوياً — أعلى بكثير من أي قرض أو شهادة ادخار في السوق.",
+    "cash_withdrawal_fee_typical": "2%-4% من المبلغ المسحوب، وبيبدأ الاحتساب فوراً بدون أي فترة سماح",
+    "late_payment_penalty_typical": "100-150 جنيه تقريباً",
+    "source_url": "https://egymonitor.com/best-credit-cards-egypt-2026/",
+    "checked_at": "2026-09-10"
+  },
+  "cards": [
+    {
+      "bank": "البنك الأهلي المصري",
+      "name": "فيزا / ماستركارد كلاسيك",
+      "tier": "classic",
+      "min_monthly_income": 2000,
+      "annual_fee": 150,
+      "best_for": "عام",
+      "highlight": "بطاقة دخول أساسية للتعاملات الإلكترونية وبرنامج نقاط الأهلي بوينتس.",
+      "notes": "رقم الدخل الأدنى تقديري من البنك (2,000-5,000 جنيه حسب الفرع والتقييم الائتماني).",
+      "source_url": "https://banksegypt.com/ar/national-bank-of-egypt-credit-card",
+      "checked_at": "2026-06-06"
+    },
+    {
+      "bank": "البنك الأهلي المصري",
+      "name": "ماستركارد تيتانيوم",
+      "tier": "titanium",
+      "min_monthly_income": 5000,
+      "annual_fee": 250,
+      "best_for": "عام",
+      "highlight": "حد ائتماني أعلى من الكلاسيك، وعروض حصرية، ودخول محدود لبعض صالات المطارات.",
+      "notes": "",
+      "source_url": "https://banksegypt.com/ar/national-bank-of-egypt-credit-card",
+      "checked_at": "2026-06-06"
+    },
+    {
+      "bank": "البنك الأهلي المصري",
+      "name": "فيزا / ماستركارد بلاتينم",
+      "tier": "platinum",
+      "min_monthly_income": 20000,
+      "annual_fee": 500,
+      "best_for": "سفر",
+      "highlight": "تأمين سفر، دخول غير محدود لصالات المطارات، وخدمات كونسيرج.",
+      "notes": "",
+      "source_url": "https://banksegypt.com/ar/national-bank-of-egypt-credit-card",
+      "checked_at": "2026-06-06"
+    },
+    {
+      "bank": "بنك مصر",
+      "name": "فيزا / ماستركارد كلاسيك",
+      "tier": "classic",
+      "min_monthly_income": 3000,
+      "annual_fee": 150,
+      "best_for": "عام",
+      "highlight": "بطاقة دخول أساسية مناسبة لأول بطاقة ائتمان.",
+      "notes": "رسوم الإصدار تقديرية بناءً على المتوسط العام لبطاقات الفئة الكلاسيك في السوق، وليست رقماً معلناً من بنك مصر تحديداً.",
+      "source_url": "https://banksegypt.com/ar/banque-misr-credit-card",
+      "checked_at": "2026-06-23"
+    },
+    {
+      "bank": "البنك التجاري الدولي CIB",
+      "name": "Cashback",
+      "tier": "cashback",
+      "min_monthly_income": 3000,
+      "annual_fee": 200,
+      "best_for": "كاش باك",
+      "highlight": "كاش باك يصل لـ5% على الوقود والمطاعم والبقالة والملابس (بحد أقصى 500 جنيه شهرياً)، وفترة سماح حتى 55 يوم.",
+      "notes": "الحد الأدنى للدخل ورسوم الإصدار تقديرية لعدم إعلان البنك رقماً محدداً؛ أما نسبة الكاش باك والحد الأقصى الشهري ومدة السماح فمؤكدة من موقع CIB الرسمي.",
+      "source_url": "https://www.cibeg.com/en/personal/cards/credit/cashback",
+      "checked_at": "2026-09-10"
+    }
+  ]
+}

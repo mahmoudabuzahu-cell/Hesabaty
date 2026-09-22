@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}حاسبة التضخم والقوة الشرائية — حساباتى{% endblock %}
+{% block description %}اعرف قد إيه هتحتاج بعد سنوات عشان تحافظ على نفس القوة الشرائية لمبلغك النهاردة.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>التضخم والقوة الشرائية</h1>
+  <p class="lede">التضخم بياكل من فلوسك بصمت. اكتب مبلغك ونسبة التضخم، وشوف هتحتاج كام بعد كام سنة عشان تشتري نفس الحاجة.</p>
+</section>
+
+<section class="container">
+  <div class="calc-layout">
+    <div class="card">
+      <div class="field">
+        <label>المبلغ اليوم <span class="field-value" id="amountOut">10,000</span> ج.م</label>
+        <div class="slider-row">
+          <input type="number" id="amountNum" value="10000" min="100" max="10000000" step="100">
+          <input type="range" id="amountRange" value="10000" min="100" max="10000000" step="100">
+        </div>
+      </div>
+      <div class="field">
+        <label>معدل التضخم السنوي المتوقع <span class="field-value" id="rateOut">{{ "%.1f"|format(default_rate) }}</span>%
+          <span class="info-tip" tabindex="0" role="button" aria-label="توضيح">؟<span class="info-tip-bubble">الرقم ده أحدث معدل تضخم متاح لدينا (بيتحدّث تلقائيًا من مصادر رسمية)، وتقدر تغيّره بالسلايدر لأي افتراض تاني تحب تجرّبه.</span></span>
+        </label>
+        <div class="slider-row">
+          <input type="number" id="rateNum" value="{{ default_rate }}" min="0" max="60" step="0.5">
+          <input type="range" id="rateRange" value="{{ default_rate }}" min="0" max="60" step="0.5">
+        </div>
+      </div>
+      <div class="field">
+        <label>عدد السنوات <span class="field-value" id="yearsOut">5</span></label>
+        <div class="slider-row">
+          <input type="number" id="yearsNum" value="5" min="1" max="40" step="1">
+          <input type="range" id="yearsRange" value="5" min="1" max="40" step="1">
+        </div>
+      </div>
+    </div>
+    <div class="result-panel">
+      <div class="result-hero">
+        <div><span class="figure num" id="rFuture">—</span><span class="unit">ج.م</span></div>
+        <div class="caption">هتحتاجهم بعد المدة عشان تشتري بيهم نفس اللي بتشتريه بمبلغك النهاردة</div>
+      </div>
+      <div class="result-rows">
+        <div class="result-row"><span class="k">القوة الشرائية المتبقية لنفس المبلغ</span><span class="v num" id="rPower">—</span></div>
+        <div class="result-row"><span class="k">نسبة القيمة اللي هتضيع</span><span class="v num" id="rLost">—</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section container section-narrow">
+  <h2>إزاي بتشتغل حاسبة التضخم؟</h2>
+  <p>التضخم معناه إن نفس الجنيه بيشتري حاجة أقل مع الوقت. الحاسبة بتستخدم قانون النمو الأسي: <code>القيمة المطلوبة = المبلغ × (1 + نسبة التضخم)^عدد السنين</code>. يعني لو عندك 10,000 جنيه دلوقتي والتضخم 15% سنوياً، هتحتاج أكتر من 20,000 جنيه بعد 5 سنين عشان تشتري نفس اللي كنت هتشتريه النهاردة — مش لأن القيمة "زادت"، لكن لأن قوتها الشرائية قلّت.</p>
+  <p>عشان كده مقارنة عائد أي أداة ادخار أو استثمار بنسبة التضخم مهمة: لو عائدك السنوي أقل من التضخم، فلوسك بتقل قيمتها الحقيقية حتى لو الرقم في حسابك بيزيد.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/inflation.js"></script>{% endblock %}

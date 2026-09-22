@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}تفقيط المبالغ بالعربي — تحويل رقم إلى كتابة — حساباتى{% endblock %}
+{% block description %}حوّل أي مبلغ بالجنيه المصري إلى كتابة عربية فوراً، مفيدة للشيكات والعقود والفواتير.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>تفقيط المبالغ</h1>
+  <p class="lede">اكتب رقم ويتحول لكتابة عربية فوراً — للشيكات والعقود. شغالة في متصفحك، الرقم مبيوصلش لأي سيرفر.</p>
+</section>
+
+<section class="container">
+  <div class="card" style="max-width:640px;">
+    <div class="field">
+      <label for="tqAmount">المبلغ بالجنيه المصري</label>
+      <input type="number" id="tqAmount" min="0" step="0.01" placeholder="مثال: 15750.50" value="15750">
+    </div>
+    <div class="result-panel" style="margin-top:6px;">
+      <p class="text-soft" style="color:rgba(255,255,255,0.7); font-size:0.8rem; margin-bottom:6px;">بالحروف</p>
+      <p id="tqOutput" style="font-size:1.25rem; font-weight:700; line-height:1.8; margin:0;">—</p>
+    </div>
+    <p class="text-soft" style="font-size:0.78rem; margin-top:14px;">القواعد النحوية العربية لصياغة الأرقام دقيقة ومعقدة، وراجعنا أكتر الحالات شيوعاً بعناية، لكن يُفضّل مراجعة الصياغة بنفسك قبل استخدامها في مستند رسمي أو شيك.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    const input = document.getElementById("tqAmount");
+    const output = document.getElementById("tqOutput");
+    function update() {
+      const v = Number(input.value);
+      output.textContent = Number.isFinite(v) && v >= 0 ? window.Hasabaty.tafqeet(v) : "اكتب رقماً صحيحاً";
+    }
+    input.addEventListener("input", update);
+    update();
+  })();
+</script>
+{% endblock %}

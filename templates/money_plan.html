@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}ماذا أفعل بفلوسي؟ — سيناريوهات تعليمية — حساباتى{% endblock %}
+{% block description %}جاوب على 3 أسئلة عن مبلغ عندك، واتفرج على سيناريوهات مبنية على حاسبات حقيقية: شهادة، أو تنويع بين شهادة وسيولة وذهب، أو أقصى مرونة.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>ماذا أفعل بفلوسي؟</h1>
+  <p class="lede">قولنا معاك كام ومحتاج إيه، ونوريك ٢-٣ سيناريوهات محسوبة من شهادات وحسابات توفير حقيقية. مش نصيحة استثمار — نقطة بداية منظمة.</p>
+</section>
+
+<section class="container">
+  <div class="card" style="max-width:640px; margin-bottom:30px;">
+    <div class="field">
+      <label for="amount">المبلغ المتاح <span class="field-value" id="amountVal">300,000</span> ج.م</label>
+      <div class="slider-row">
+        <input type="range" id="amountRange" min="5000" max="5000000" step="5000" value="300000">
+        <input type="number" id="amount" min="1" value="300000">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>هل محتاج تسحب من الفلوس دي في أي وقت؟</label>
+      <div class="segmented" id="liquiditySeg" data-value="partial">
+        <button type="button" data-value="none">لأ، هستغنى عنهم للمدة كلها</button>
+        <button type="button" data-value="partial" class="active">ممكن أحتاج جزء بسيط</button>
+        <button type="button" data-value="full">محتاج مرونة كاملة</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>هل يهمك إن الفلوس دي تدّيك دخل شهري ثابت؟</label>
+      <div class="segmented" id="incomeSeg" data-value="true">
+        <button type="button" data-value="true" class="active">أيوه، محتاج دخل شهري</button>
+        <button type="button" data-value="false">لأ، مهتم بالنمو على المدى الطويل بس</button>
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom:6px;">
+      <label>المدة اللي مستعد تستغنى فيها عن الفلوس دي؟</label>
+      <div class="segmented" id="durationSeg" data-value="3">
+        <button type="button" data-value="1">سنة</button>
+        <button type="button" data-value="3" class="active">1-3 سنين</button>
+        <button type="button" data-value="5">أكتر من 3 سنين</button>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="planBtn" style="width:100%; margin-top:14px;">اعرض السيناريوهات</button>
+    <p id="planError" class="text-soft" style="color:var(--cost); display:none; margin-top:10px;"></p>
+  </div>
+
+  <div id="planResults" style="display:none;">
+    <div class="compare-grid" id="scenarioCards"></div>
+    <div class="alert alert-info" id="goldNote" style="margin-top:20px;"></div>
+    <p class="text-soft" style="font-size:0.82rem; margin-top:16px;" id="disclaimerText"></p>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/money_plan.js"></script>
+{% endblock %}

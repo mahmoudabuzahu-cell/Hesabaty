@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}أسعار الدولار والذهب والبورصة المصرية لحظياً — حساباتى{% endblock %}
+{% block description %}أسعار بيع وشراء العملات، جرام الذهب بكل عيار، والفضة، ومؤشر EGX30 — بتحديث تلقائي.{% endblock %}
+{% block head_extra %}<script>window.__HISTORY__ = {{ history_json|safe }};</script>{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>الأسعار اللحظية</h1>
+  <p class="lede" id="lastUpdatedLine">آخر تحديث: —</p>
+</section>
+
+<section class="container">
+
+  <div class="card" style="margin-bottom:26px;" id="currency">
+    <h2 class="mt-0">العملات</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>العملة</th><th>شراء</th><th>بيع</th><th>آخر 7 أيام</th></tr></thead>
+        <tbody id="currencyBody"></tbody>
+      </table>
+    </div>
+    <p class="text-soft" style="font-size:0.76rem; margin-top:10px;">أسعار تقديرية محسوبة من متوسط سعر السوق مع هامش استرشادي، وليست تسعيرة بنك أو شركة صرافة معينة.</p>
+
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="field">
+        <label>حوّل مبلغ</label>
+        <input type="number" id="convAmount" value="100" min="0">
+      </div>
+      <div class="field">
+        <label>من</label>
+        <select id="convFrom"></select>
+      </div>
+    </div>
+    <p style="font-size:1.1rem; font-weight:700; color:var(--brand);" id="convResult"></p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:26px;" id="gold">
+    <div class="card">
+      <h2 class="mt-0">الذهب</h2>
+      <div class="table-wrap">
+        <table>
+          <tbody id="goldBody"></tbody>
+        </table>
+      </div>
+      <p class="text-soft" style="font-size:0.78rem; margin-top:10px;" id="goldGauge"></p>
+    </div>
+    <div class="card">
+      <h2 class="mt-0">الفضة</h2>
+      <div class="table-wrap">
+        <table><tbody id="silverBody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:26px;" id="egx">
+    <h2 class="mt-0">البورصة المصرية</h2>
+    <div id="egxIndices" class="grid-3"></div>
+    <div id="egxMovers" class="grid-3" style="margin-top:18px;"></div>
+    <p class="text-soft" style="font-size:0.78rem; margin-top:10px;" id="egxNote"></p>
+  </div>
+
+  <div class="card" style="margin-bottom:26px;">
+    <h2 class="mt-0">أسعار المنتجات البترولية</h2>
+    <div class="table-wrap">
+      <table><tbody id="fuelBody"></tbody></table>
+    </div>
+    <p class="text-soft" style="font-size:0.78rem; margin-top:10px;" id="fuelNote"></p>
+  </div>
+
+  <div class="card" style="margin-bottom:40px;">
+    <h2 class="mt-0">تنبيه سعر</h2>
+    <p class="text-soft" style="font-size:0.85rem;">هيبعتلك إشعار من المتصفح لما السعر يوصل للهدف — لازم تسيب تاب الموقع مفتوح عشان يشتغل، مفيش رسائل أو إيميلات.</p>
+    <div class="grid-3">
+      <div class="field">
+        <label>الأصل</label>
+        <select id="alertAsset">
+          <option value="usd_sell">الدولار (بيع)</option>
+          <option value="gold_21k">ذهب عيار 21</option>
+          <option value="silver">الفضة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>الاتجاه</label>
+        <select id="alertDirection"><option value="above">يوصل لـ أو يتعدى</option><option value="below">ينزل لـ أو أقل</option></select>
+      </div>
+      <div class="field">
+        <label>الهدف</label>
+        <input type="number" id="alertTarget" placeholder="مثال: 52">
+      </div>
+    </div>
+    <button class="btn btn-primary btn-sm" id="addAlertBtn">تفعيل التنبيه</button>
+    <div id="alertsList" style="margin-top:14px;"></div>
+  </div>
+
+</section>
+
+<section class="section container section-narrow">
+  <h2>إزاي بيتحسب سعر الذهب بالجنيه؟</h2>
+  <p>سعر الذهب عالمياً بيتسعّر بالدولار لكل أوقية (31.1 جرام). عشان نحوّله لسعر الجرام بالجنيه: <code>سعر الجرام = (سعر الأوقية بالدولار ÷ 31.1) × سعر الدولار</code>، وده بيدّينا سعر عيار 24 (الذهب الخالص). عيار 21 = عيار 24 × 0.875، وعيار 18 = عيار 24 × 0.75 (النسبة بتعكس نقاء الذهب في السبيكة). الأسعار هنا استرشادية مبنية على السعر العالمي، وممكن تختلف شوية عن سعر محل الصاغة بسبب هامش ربح محلي.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/market.js"></script>{% endblock %}

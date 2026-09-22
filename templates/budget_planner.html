@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}محاكي الميزانية الذكي — قاعدة 50/30/20 — حساباتى{% endblock %}
+{% block description %}قسّم راتبك تلقائياً بين الاحتياجات والكماليات والادخار حسب قاعدة 50/30/20، واعرف مصروفك اليومي المتاح.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>محاكي الميزانية الذكي</h1>
+  <p class="lede">نص الدخل للأساسيات، تلته للكماليات، والباقي ادخار. قاعدة عالمية بسيطة — جرّبها على راتبك.</p>
+</section>
+
+<section class="container">
+  <div class="calc-layout">
+    <div>
+      <div class="field">
+        <label for="income">صافي راتبك الشهري <span class="field-value" id="incomeVal">15,000</span> ج.م</label>
+        <div class="slider-row">
+          <input type="range" id="incomeRange" min="2000" max="150000" step="500" value="15000">
+          <input type="number" id="income" min="1" value="15000">
+        </div>
+      </div>
+      <div class="field">
+        <label for="fixed">التزاماتك الثابتة شهرياً <span class="field-value" id="fixedVal">5,000</span> ج.م<span class="hint">إيجار، أقساط، تأمينات</span></label>
+        <div class="slider-row">
+          <input type="range" id="fixedRange" min="0" max="100000" step="250" value="5000">
+          <input type="number" id="fixed" min="0" value="5000">
+        </div>
+      </div>
+    </div>
+
+    <div class="result-panel">
+      <div class="result-hero">
+        <span class="figure num" id="dailyFigure">—</span>
+        <span class="unit">ج.م / يوم</span>
+        <p class="caption">متاح للإنفاق اليومي على الكماليات</p>
+      </div>
+      <div class="result-rows" id="budgetRows"></div>
+      <p class="note" id="budgetNote"></p>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    const { formatNumber, bindSlider, postJSON, debounce } = window.Hasabaty;
+    bindSlider(document.getElementById("incomeRange"), document.getElementById("income"), (v) => { document.getElementById("incomeVal").textContent = formatNumber(v, 0); calc(); });
+    bindSlider(document.getElementById("fixedRange"), document.getElementById("fixed"), (v) => { document.getElementById("fixedVal").textContent = formatNumber(v, 0); calc(); });
+
+    const calc = debounce(async () => {
+      try {
+        const data = await postJSON("/calculate/budget-planner", {
+          monthly_net_income: Number(document.getElementById("income").value),
+          fixed_obligations: Number(document.getElementById("fixed").value),
+        });
+        document.getElementById("dailyFigure").textContent = formatNumber(data.daily_spending_allowance, 0);
+        document.getElementById("budgetRows").innerHTML = `
+          <div class="result-row"><span class="k">احتياجات أساسية (التزامات + متغيرة)</span><span class="v">${formatNumber(Number(data.fixed_obligations) + Number(data.variable_needs_budget), 0)} ج.م</span></div>
+          <div class="result-row"><span class="k">— منها التزامات ثابتة بالفعل</span><span class="v">${formatNumber(data.fixed_obligations, 0)} ج.م</span></div>
+          <div class="result-row"><span class="k">كماليات ورغبات</span><span class="v">${formatNumber(data.wants_budget, 0)} ج.م</span></div>
+          <div class="result-row"><span class="k">ادخار أو سداد ديون إضافية</span><span class="v value-gain">${formatNumber(data.savings_budget, 0)} ج.م</span></div>
+        `;
+        document.getElementById("budgetNote").textContent = data.over_needs_budget
+          ? "التزاماتك الثابتة تجاوزت نسبة الـ50% الموصى بيها من دخلك، فوزّعنا الباقي بعد سدادها بين الكماليات والادخار بدل تجاهل الموضوع."
+          : data.rule_note;
+      } catch (e) {
+        console.error(e);
+      }
+    }, 250);
+    calc();
+  })();
+</script>
+{% endblock %}

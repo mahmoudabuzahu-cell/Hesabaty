@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}حساباتى — قسط القرض، شهادات الادخار، صافي الراتب، الزكاة وأسعار اللحظة{% endblock %}
+
+{% block live_strip %}
+<div class="live-strip" data-live-strip>
+  <div class="container">
+    <a class="item" href="/market#currency"><span class="label">دولار</span><span class="value" data-key="usd">{{ prices.currency.USD.mid if prices.currency.USD else "—" }}</span></a>
+    <a class="item" href="/market#gold"><span class="label">ذهب ٢١</span><span class="value" data-key="gold21">{{ prices.gold["21k"] if prices.gold else "—" }}</span></a>
+    <a class="item" href="/market#egx"><span class="label">EGX30</span><span class="value" data-key="egx30">{{ egx.indices.EGX30.value if egx.indices and egx.indices.EGX30 else "—" }}</span><span class="chg" data-key="egx30-chg"></span></a>
+    <a class="item" href="/certificate" data-key-wrap="policy" style="display:none;"><span class="label">فائدة الإيداع</span><span class="value" data-key="policy">—</span></a>
+    <a class="updated" href="/market" data-updated>الأسعار اللحظية ←</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>احسب الأول، قرر بعدين</h1>
+  <p class="lede">١٢ حاسبة مصرية للقرض والشهادات والراتب والزكاة. من غير تسجيل، ومن غير ما نحفظ رقم واحد من بتاعك.</p>
+</section>
+
+<section class="container">
+  <div class="tool-category">
+    <h2>الادخار والاستثمار</h2>
+    <div class="tool-grid">
+      <a class="tool-card" href="/certificate">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><rect x="7" y="6" width="20" height="22" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M11 12h12M11 16h12M11 20h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h3>شهادات الادخار</h3>
+        <p>قارن ١٦ شهادة من ٦ بنوك على مبلغك ومدتك، وشوف هتخسر كام لو فكيتها بدري.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+      <a class="tool-card" href="/savings">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><ellipse cx="17" cy="12" rx="8" ry="3.4" stroke="currentColor" stroke-width="1.6"/><path d="M9 12v10c0 1.9 3.6 3.4 8 3.4s8-1.5 8-3.4V12M9 17c0 1.9 3.6 3.4 8 3.4s8-1.5 8-3.4" stroke="currentColor" stroke-width="1.6"/></svg>
+        <h3>حساب التوفير</h3>
+        <p>شوف فلوسك بتكبر إزاي شهر بشهر بالفايدة المركّبة، وقارن شرائح البنوك.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+      <a class="tool-card" href="/money-plan">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><path d="M17 4v26M9 10h11a4 4 0 010 8H14a4 4 0 000 8h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h3>أستثمر فين؟</h3>
+        <p>٣ أسئلة بس، وتطلعلك سيناريوهات توزيع بين شهادة وسيولة وذهب — محسوبة بأرقام حقيقية.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+      <a class="tool-card" href="/compare-investments">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><path d="M8 26V14M17 26V8M26 26V18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h3>شهادة ولا توفير ولا ذهب؟</h3>
+        <p>مقارنة مباشرة بالأرقام لنفس المبلغ ونفس المدة، بالمخاطرة والسيولة.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+      <a class="tool-card" href="/inflation">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><path d="M6 20l7-7 5 5 10-11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 7h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 25h22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h3>مقياس التضخم</h3>
+        <p>هتحتاج كام بعد كام سنة عشان تشتري نفس اللي بتشتريه النهاردة؟</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="tool-category">
+    <h2>القروض والائتمان</h2>
+    <div class="tool-grid">
+      <a class="tool-card" href="/loan">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="14" stroke="currentColor" stroke-width="1.6"/><path d="M12 22L22 12M13.5 15a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM20.5 22a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h3>حاسبة القروض</h3>
+        <p>القسط وجدول السداد ونسبة العبء على دخلك ومحاكي السداد المبكر — كله في صفحة واحدة.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+      <a class="tool-card" href="/credit-cards">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><rect x="4" y="9" width="26" height="17" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 14h26" stroke="currentColor" stroke-width="1.6"/></svg>
+        <h3>البطاقات الائتمانية</h3>
+        <p>نرشّحلك كارت على قد دخلك، ونوريك بالأرقام تكلفة إنك تدفع الحد الأدنى بس.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="tool-category">
+    <h2>الدخل والعمل</h2>
+    <div class="tool-grid">
+      <a class="tool-card" href="/salary">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><rect x="5" y="10" width="24" height="16" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M5 15h24" stroke="currentColor" stroke-width="1.6"/><circle cx="23" cy="20.5" r="1.6" fill="currentColor"/></svg>
+        <h3>إجمالي الراتب</h3>
+        <p>اكتب الصافي اللي عايزه في إيدك، ونقوللك الإجمالي (الأساسي) المطلوب بعد التأمينات وضريبة ٢٠٢٦.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+      <a class="tool-card" href="/end-of-service">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><rect x="6" y="12" width="22" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M13 12V9a2 2 0 012-2h4a2 2 0 012 2v3" stroke="currentColor" stroke-width="1.6"/></svg>
+        <h3>مكافأة نهاية الخدمة</h3>
+        <p>لمدة الخدمة غير المؤمن عليها تحديداً — مش كل موظف بيستحقها، وبنقوللك ليه.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="tool-category">
+    <h2>أدوات سريعة</h2>
+    <div class="tool-grid">
+      <a class="tool-card" href="/zakat">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><path d="M17 8v3M17 23v3M9 17h3M22 17h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17 11l-6 6 6 6 6-6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <h3>حاسبة الزكاة</h3>
+        <p>نقدية وذهب وفضة وأسهم وديون في مكان واحد، والنصاب بسعر النهاردة.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+      <a class="tool-card" href="/budget-planner">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><rect x="5" y="6" width="24" height="22" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M5 14h24M13 14v14M21 14v14" stroke="currentColor" stroke-width="1.6"/></svg>
+        <h3>ميزانية 50/30/20</h3>
+        <p>وزّع راتبك على الأساسيات والكماليات والادخار، واعرف مصروفك اليومي.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+      <a class="tool-card" href="/tafqeet">
+        <svg class="icon" viewBox="0 0 34 34" fill="none"><path d="M7 10h20M7 17h20M7 24h13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h3>تفقيط المبالغ</h3>
+        <p>حوّل أي رقم لكتابة عربية فوراً — للشيكات والعقود.</p>
+        <span class="tool-cta">احسب الآن ←</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="tool-category">
+    <h2>أسعار اللحظة</h2>
+    <a class="tool-card" href="/market" style="max-width: 460px;">
+      <svg class="icon" viewBox="0 0 34 34" fill="none"><path d="M5 24l6-9 5 4 6-10 7 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>الدولار والذهب والبورصة</h3>
+      <p>العملات وجرام الذهب بكل عيار ومؤشرات البورصة وأسعار البنزين — بتحديث تلقائي.</p>
+      <span class="tool-cta">احسب الآن ←</span>
+    </a>
+  </div>
+
+</section>
+
+<section class="section lattice-bg" style="color:#fff;">
+  <div class="container">
+    <div class="grid-3">
+      <div>
+        <h3 style="color:#fff;">بيتحدّث لوحده</h3>
+        <p style="color:rgba(255,255,255,0.8);">العملة والذهب والبورصة بتتحدث من مصادرها كل ساعة، وبيانات البنك المركزي دورياً.</p>
+      </div>
+      <div>
+        <h3 style="color:#fff;">مفيش تسجيل ولا تتبّع</h3>
+        <p style="color:rgba(255,255,255,0.8);">تدخل أرقامك، تاخد نتيجتك، وتمشي. مفيش حساب ولا تخزين لأي رقم على السيرفر.</p>
+      </div>
+      <div>
+        <h3 style="color:#fff;">كل رقم ليه مصدر</h3>
+        <p style="color:rgba(255,255,255,0.8);">أي سعر بنكي أو قاعدة ضريبية مكتوب جنبه تاريخ آخر تحقق ومصدره — مش تخمين.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

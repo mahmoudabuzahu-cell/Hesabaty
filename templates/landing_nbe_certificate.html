@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}حاسبة عائد شهادات البنك الأهلي المصري 2026 — حساباتى{% endblock %}
+{% block description %}احسب عائد شهادات ادخار البنك الأهلي المصري (البلاتينية، الثابتة، المتناقصة) بالأرقام الحالية، شهرياً أو على مدار مدة الشهادة.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>حاسبة عائد شهادات البنك الأهلي المصري</h1>
+  <p class="lede">البنك الأهلي المصري بيقدّم أكتر من نوع شهادة ادخار — منها الثابتة والمتغيرة والمتناقصة. اختار شهادتك تحت واحسب عائدها بالضبط.</p>
+</section>
+
+<section class="container">
+  <div class="card" style="max-width:640px;">
+    <div class="field">
+      <label for="certSelect">شهادة البنك الأهلي</label>
+      <select id="certSelect">
+        {% for c in certs %}
+        <option value="{{ loop.index0 }}">{{ c.name }} ({{ c.rate if c.rate else (c.annual_rates|join('/') ~ '%') }}{{ '%' if c.rate }})</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field" style="margin-bottom:6px;">
+      <label for="amount">المبلغ <span class="field-value" id="amountVal">50,000</span> ج.م</label>
+      <div class="slider-row">
+        <input type="range" id="amountRange" min="1000" max="5000000" step="1000" value="50000">
+        <input type="number" id="amount" min="1" value="50000">
+      </div>
+    </div>
+    <button class="btn btn-primary" id="calcBtn" style="width:100%;">احسب العائد</button>
+  </div>
+
+  <div class="result-panel" id="resultPanel" style="max-width:640px; margin-top:20px; display:none;">
+    <div class="result-hero">
+      <span class="figure num" id="rMonthly">—</span>
+      <span class="unit">ج.م / شهرياً</span>
+    </div>
+    <div class="result-rows" id="resultRows"></div>
+  </div>
+
+  <section class="section section-narrow" style="padding-top:44px;">
+    <h2>شهادات البنك الأهلي المتاحة حالياً</h2>
+    <p>البنك الأهلي المصري من أكبر البنوك المصرية وأكتر البنوك تنويعاً في شهادات الادخار. الشهادة "البلاتينية" بيصدرها بعدة صور: عائد متغير مرتبط بسعر البنك المركزي، عائد متناقص (نسبة أعلى في السنة الأولى)، وعائد ثابت طول مدة الشهادة. كل الأرقام في الحاسبة دي مأخوذة من إعلانات البنك الرسمية وتاريخ التحقق موضح جنب كل شهادة.</p>
+    <p>عايز تقارن شهادات الأهلي بشهادات بنوك تانية زي بنك مصر وCIB وQNB في نفس اللحظة؟ <a href="/certificate">جرّب حاسبة المقارنة الذكية الكاملة</a>.</p>
+  </section>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    const certs = {{ certs_json|safe }};
+    const { formatNumber, bindSlider, postJSON } = window.Hasabaty;
+    bindSlider(document.getElementById("amountRange"), document.getElementById("amount"), (v) => (document.getElementById("amountVal").textContent = formatNumber(v, 0)));
+
+    document.getElementById("calcBtn").addEventListener("click", async () => {
+      const cert = certs[Number(document.getElementById("certSelect").value)];
+      const amount = Number(document.getElementById("amount").value);
+      const rate = cert.rate || cert.annual_rates.reduce((a, b) => a + b, 0) / cert.annual_rates.length;
+      try {
+        const data = await postJSON("/calculate/certificate", { principal: amount, annual_rate: rate, years: cert.term_years, payout: "monthly" });
+        document.getElementById("rMonthly").textContent = formatNumber(data.income_per_period);
+        document.getElementById("resultRows").innerHTML = `
+          <div class="result-row"><span class="k">العائد السنوي التقريبي</span><span class="v">${rate.toFixed(2)}%</span></div>
+          <div class="result-row"><span class="k">إجمالي العائد على ${cert.term_years} سنوات</span><span class="v value-gain">${formatNumber(data.total_income, 0)} ج.م</span></div>
+          <div class="result-row"><span class="k">الحد الأدنى للشراء</span><span class="v">${formatNumber(cert.min_amount, 0)} ج.م</span></div>
+        `;
+        document.getElementById("resultPanel").style.display = "block";
+      } catch (e) {
+        alert(e.message);
+      }
+    });
+  })();
+</script>
+{% endblock %}

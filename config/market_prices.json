@@ -1,0 +1,14 @@
+{
+  "last_updated": "2026-09-08T12:00:00+00:00",
+  "status": "seed",
+  "source_url": "https://github.com/haxqer/FreeExchangeRateApi",
+  "currency": {
+    "USD": {"name": "دولار أمريكي", "buy": 50.82, "sell": 51.07, "mid": 50.95},
+    "EUR": {"name": "يورو", "buy": 59.01, "sell": 59.31, "mid": 59.16},
+    "SAR": {"name": "ريال سعودي", "buy": 13.53, "sell": 13.60, "mid": 13.57},
+    "AED": {"name": "درهم إماراتي", "buy": 13.84, "sell": 13.91, "mid": 13.87},
+    "KWD": {"name": "دينار كويتي", "buy": 164.44, "sell": 165.26, "mid": 164.85}
+  },
+  "gold": {"ounce_usd": 4392.53, "24k": 7194.90, "21k": 6295.54, "18k": 5396.18, "pound_21k": 50364.32},
+  "silver": {"999": 107.97}
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}حساباتى — حاسبات مالية مصرية{% endblock %}</title>
+  <meta name="description" content="{% block description %}حاسبات مالية مصرية مجانية: قسط القرض، شهادات الادخار، صافي الراتب، الزكاة، وأسعار الدولار والذهب والبورصة لحظياً.{% endblock %}">
+  <link rel="canonical" href="{{ site_url }}{{ request.url.path }}">
+  <meta property="og:site_name" content="حساباتى">
+  <meta property="og:title" content="{% block og_title %}حساباتى — حاسبات مالية مصرية{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}حاسبات مالية مصرية مجانية ودقيقة، بدون تسجيل.{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0E4B44">
+  <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/static/css/style.css">
+  {% if adsense_client %}
+  <meta name="google-adsense-account" content="{{ adsense_client }}">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client }}" crossorigin="anonymous"></script>
+  {% endif %}
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <a class="visually-hidden" href="#main">تخطَّ إلى المحتوى</a>
+
+  <header class="site-header">
+    <div class="container bar">
+      <a href="/" class="brand-mark">
+        <img src="/static/img/logo-mark.svg" alt="" width="34" height="34" class="brand-logo">
+        <span class="brand-text">حساباتى<small>حاسباتك المالية المصرية</small></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة" aria-expanded="false" aria-controls="mainNav">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="main-nav" id="mainNav">
+        <a href="/" class="{{ 'active' if request.url.path == '/' }}">الرئيسية</a>
+        <button class="nav-dropdown-toggle" id="calcDropdownToggle" aria-expanded="false" aria-controls="calcStrip">
+          الحاسبات
+          <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <a href="/market" class="{{ 'active' if request.url.path == '/market' }}">الأسعار</a>
+        <a href="/about" class="{{ 'active' if request.url.path == '/about' }}">عن الموقع</a>
+        <a href="/faq" class="{{ 'active' if request.url.path == '/faq' }}">أسئلة شائعة</a>
+      </nav>
+    </div>
+
+    {% set calc_groups = [
+      {"title": "الادخار والاستثمار", "links": [
+        {"path": "/certificate", "label": "شهادات الادخار"},
+        {"path": "/savings", "label": "حسابات التوفير"},
+        {"path": "/money-plan", "label": "أستثمر فين؟"},
+        {"path": "/compare-investments", "label": "شهادة ولا ذهب؟"},
+        {"path": "/inflation", "label": "مقياس التضخم"}
+      ]},
+      {"title": "القروض والائتمان", "links": [
+        {"path": "/loan", "label": "حاسبة القروض"},
+        {"path": "/credit-cards", "label": "البطاقات الائتمانية"}
+      ]},
+      {"title": "الدخل والعمل", "links": [
+        {"path": "/salary", "label": "إجمالي الراتب"},
+        {"path": "/end-of-service", "label": "مكافأة نهاية الخدمة"}
+      ]},
+      {"title": "أدوات سريعة", "links": [
+        {"path": "/zakat", "label": "حاسبة الزكاة"},
+        {"path": "/budget-planner", "label": "ميزانية 50/30/20"},
+        {"path": "/tafqeet", "label": "تفقيط المبالغ"}
+      ]}
+    ] %}
+    {% set nav_ns = namespace(paths=[], current_label=none) %}
+    {% for group in calc_groups %}
+      {% for item in group.links %}
+        {% set nav_ns.paths = nav_ns.paths + [item.path] %}
+        {% if item.path == request.url.path %}{% set nav_ns.current_label = item.label %}{% endif %}
+      {% endfor %}
+    {% endfor %}
+    {% set calc_paths = nav_ns.paths %}
+    <div class="calc-strip {{ 'open' if request.url.path in calc_paths }}" id="calcStrip">
+      <div class="container">
+        {% for group in calc_groups %}
+        <div class="calc-group">
+          <span class="calc-group-title">{{ group.title }}</span>
+          <div class="calc-group-links">
+            {% for item in group.links %}
+            <a href="{{ item.path }}" class="{{ 'active' if request.url.path == item.path }}">{{ item.label }}</a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </header>
+
+  {% block live_strip %}{% endblock %}
+
+  {% if nav_ns.current_label %}
+  <nav class="breadcrumbs container" aria-label="مسار التنقل">
+    <a href="/">الرئيسية</a>
+    <span class="sep">›</span>
+    <span>الحاسبات</span>
+    <span class="sep">›</span>
+    <span aria-current="page">{{ nav_ns.current_label }}</span>
+  </nav>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"الرئيسية","item":"{{ site_url }}/"},
+    {"@type":"ListItem","position":2,"name":"الحاسبات","item":"{{ site_url }}/"},
+    {"@type":"ListItem","position":3,"name":"{{ nav_ns.current_label }}","item":"{{ site_url }}{{ request.url.path }}"}
+  ]}
+  </script>
+  <div class="trust-badge container">
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3.4 8.4-7 10-3.6-1.6-7-5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>من غير تسجيل، ومن غير ما نحفظ رقم واحد من بياناتك</span>
+  </div>
+  {% endif %}
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="cols">
+        <div>
+          <h4>فلوسك</h4>
+          <a href="/loan">القرض</a>
+          <a href="/certificate">الشهادات</a>
+          <a href="/savings">التوفير</a>
+          <a href="/salary">الراتب</a>
+          <a href="/credit-cards">الكروت</a>
+        </div>
+        <div>
+          <h4>أدوات</h4>
+          <a href="/money-plan">أستثمر فين؟</a>
+          <a href="/compare-investments">شهادة ولا ذهب؟</a>
+          <a href="/budget-planner">الميزانية</a>
+          <a href="/zakat">الزكاة</a>
+          <a href="/inflation">التضخم</a>
+          <a href="/end-of-service">نهاية الخدمة</a>
+          <a href="/tafqeet">التفقيط</a>
+        </div>
+        <div>
+          <h4>الموقع</h4>
+          <a href="/market">الأسعار</a>
+          <a href="/about">عن الموقع</a>
+          <a href="/faq">أسئلة شائعة</a>
+        </div>
+        <div>
+          <h4>قانوني</h4>
+          <a href="/privacy">سياسة الخصوصية</a>
+          <a href="/terms">شروط الاستخدام</a>
+          <a href="/contact">تواصل معنا</a>
+        </div>
+      </div>
+      <p class="disclaimer">
+        حساباتى أداة تقدير وفهم، مش استشارة مالية أو ضريبية أو شرعية. الأرقام البنكية والقانونية
+        مكتوب جنبها تاريخ آخر تحقق، وبتتغير في أي وقت — راجع بنكك أو مصلحة الضرائب أو دار الإفتاء
+        قبل أي قرار كبير.
+      </p>
+    </div>
+  </footer>
+
+  <script src="/static/js/main.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

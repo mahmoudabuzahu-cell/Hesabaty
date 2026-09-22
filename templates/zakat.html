@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}حاسبة الزكاة الشاملة — حساباتى{% endblock %}
+{% block description %}احسب زكاة مالك الشامل: نقدية، ذهب، فضة، أسهم، مستحقات وديون — بنصاب محسوب من سعر الذهب أو الفضة اليوم.{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <h1>حاسبة الزكاة الشاملة</h1>
+  <p class="lede">جمّع أموالك من التبويبات تحت واختار أساس النصاب، وهنحسبلك الصافي أول بأول. ده حساب رياضي مش فتوى — لأي تفصيل في حالتك راجع دار الإفتاء.</p>
+</section>
+
+<section class="container">
+  <div class="grid-2" style="margin-bottom:24px;">
+    <div class="card">
+      <label style="font-weight:600; font-size:0.9rem; display:block; margin-bottom:8px;">أساس النصاب</label>
+      <div class="segmented" id="nisabSeg">
+        <button type="button" data-val="gold" class="active">الذهب (85 جم عيار 21)</button>
+        <button type="button" data-val="silver">الفضة (595 جم)</button>
+      </div>
+      <p class="text-soft" style="font-size:0.78rem; margin-top:10px;">نصاب الفضة عادة أقل قيمة من نصاب الذهب، فبعض أهل العلم يرون الأخذ به أحوط وأنفع للفقراء في زكاة النقود. الاختيار ليك.</p>
+    </div>
+    <div class="card">
+      <label style="font-weight:600; font-size:0.9rem; display:block; margin-bottom:8px;">هل مر عام هجري كامل (حول) على هذا المال؟</label>
+      <div class="segmented" id="hawlSeg">
+        <button type="button" data-val="yes" class="active">أيوه، مر عليه حول</button>
+        <button type="button" data-val="no">لسه</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button type="button" class="tab-btn active" data-tab="cash">نقدية</button>
+    <button type="button" class="tab-btn" data-tab="gold">ذهب</button>
+    <button type="button" class="tab-btn" data-tab="silver">فضة</button>
+    <button type="button" class="tab-btn" data-tab="stocks">أسهم واستثمارات</button>
+    <button type="button" class="tab-btn" data-tab="debts">مستحقات وديون</button>
+  </div>
+
+  <div class="calc-layout">
+    <div>
+      <div class="tab-panel active card" id="panel-cash">
+        <div class="field">
+          <label>النقدية المتاحة (بالجنيه، بعد تحويل أي عملة أجنبية)</label>
+          <input type="number" id="cashNum" value="0" min="0">
+        </div>
+        <p class="text-soft" style="font-size:0.8rem;">لو معاك دولارات أو أي عملة تانية، حوّلها للجنيه بسعر اليوم من <a href="/market" target="_blank">صفحة الأسعار اللحظية</a> واكتب الناتج هنا.</p>
+      </div>
+
+      <div class="tab-panel card" id="panel-gold">
+        <p class="text-soft" style="font-size:0.8rem;">سعر الجرام النهاردة: عيار 24 = <b class="num" id="g24p">—</b> ج.م، عيار 21 = <b class="num" id="g21p">—</b> ج.م، عيار 18 = <b class="num" id="g18p">—</b> ج.م.</p>
+        <div class="grid-3">
+          <div class="field"><label>جرامات عيار 24</label><input type="number" id="gold24Num" value="0" min="0"></div>
+          <div class="field"><label>جرامات عيار 21</label><input type="number" id="gold21Num" value="0" min="0"></div>
+          <div class="field"><label>جرامات عيار 18</label><input type="number" id="gold18Num" value="0" min="0"></div>
+        </div>
+        <label style="display:flex; align-items:center; gap:8px; font-size:0.88rem; margin-top:6px;">
+          <input type="checkbox" id="excludeWorn"> استبعاد الذهب المُستخدم كزينة شخصية يومية من الحساب
+        </label>
+        <div id="wornFields" style="display:none; margin-top:10px;">
+          <p class="text-soft" style="font-size:0.78rem;">مسألة فيها خلاف بين المذاهب الفقهية؛ الخيار ده بيساعدك تحسب على الرأي اللي تطمن له، وليس فتوى.</p>
+          <div class="grid-3">
+            <div class="field"><label>من عيار 24 (زينة)</label><input type="number" id="worn24Num" value="0" min="0"></div>
+            <div class="field"><label>من عيار 21 (زينة)</label><input type="number" id="worn21Num" value="0" min="0"></div>
+            <div class="field"><label>من عيار 18 (زينة)</label><input type="number" id="worn18Num" value="0" min="0"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel card" id="panel-silver">
+        <p class="text-soft" style="font-size:0.8rem;">سعر جرام الفضة عيار 999 النهاردة: <b class="num" id="silverP">—</b> ج.م.</p>
+        <div class="field"><label>جرامات الفضة</label><input type="number" id="silverNum" value="0" min="0"></div>
+      </div>
+
+      <div class="tab-panel card" id="panel-stocks">
+        <div class="field"><label>القيمة السوقية للأسهم وصناديق الاستثمار</label><input type="number" id="stocksNum" value="0" min="0"></div>
+        <p class="text-soft" style="font-size:0.8rem;">لو الأسهم للمتاجرة يُزكّى كامل قيمتها السوقية عادةً. لو محتفظ بيها للتوزيعات على المدى الطويل، بعض أهل العلم يرون تزكية جزء منها فقط بحسب الأصول الزكوية للشركة — راجع أهل العلم لتفصيل حالتك.</p>
+      </div>
+
+      <div class="tab-panel card" id="panel-debts">
+        <div class="field"><label>مستحقات لك عند الآخرين (متوقع تحصيلها)</label><input type="number" id="receivablesNum" value="0" min="0"></div>
+        <div class="field"><label>ديون وأقساط عليك حالّة</label><input type="number" id="debtsNum" value="0" min="0"></div>
+      </div>
+    </div>
+
+    <div class="result-panel">
+      <div class="result-hero">
+        <div><span class="figure num" id="rDue">—</span><span class="unit">ج.م</span></div>
+        <div class="caption">الزكاة المستحقة (2.5%)</div>
+        <div class="caption" id="rDueWords" style="font-size:0.74rem; margin-top:4px;"></div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
+      <div class="progress-labels"><span>0</span><span id="nisabLabel">النصاب: —</span></div>
+      <div class="result-rows" style="margin-top:16px;">
+        <div class="result-row"><span class="k">إجمالي الأموال</span><span class="v num" id="rTotal">—</span></div>
+        <div class="result-row"><span class="k">الديون المخصومة</span><span class="v num" id="rDebts">—</span></div>
+        <div class="result-row"><span class="k">الصافي الخاضع للزكاة</span><span class="v num" id="rNet">—</span></div>
+      </div>
+      <div class="note" id="statusNote"></div>
+    </div>
+  </div>
+
+  <div class="card no-print" style="margin:30px 0;">
+    <h3 class="mt-0">بعد ما تحسب</h3>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn btn-ghost btn-sm" id="printBtn">تنزيل / طباعة النتيجة PDF</button>
+      <button class="btn btn-ghost btn-sm" id="reminderBtn">تذكير بموعد زكاة العام القادم</button>
+    </div>
+    <p class="text-soft" style="font-size:0.78rem; margin-top:10px;">التذكير تقريبي بعد 354 يوماً (طول السنة الهجرية تقريباً) ويُضاف لتقويم جهازك مباشرة.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:40px;">
+    <h3 class="mt-0">فين تقدر تخرج زكاتك؟</h3>
+    <p class="text-soft" style="font-size:0.85rem;">الموقع مش بياخد أو يوجّه أي تحويلات مالية بنفسه. من الجهات الرسمية المعروفة لإخراج الزكاة في مصر: "بيت الزكاة والصدقات المصري" التابع لمشيخة الأزهر (أُنشئ بالقانون رقم 123 لسنة 2014) — ابحث عن اسمه للوصول لأحدث قنوات التواصل والتبرع الرسمية الخاصة به، أو استشر مسجد حيّك أو دار الإفتاء لأقرب جهة موثوقة.</p>
+  </div>
+</section>
+
+<section class="section container section-narrow">
+  <h2>إزاي بتشتغل حاسبة الزكاة؟</h2>
+  <p>الزكاة بتُحسب على "صافي المال" اللي فوق حد معين (النصاب) ومر عليه عام هجري كامل (الحول). النصاب بيتحدد إما بقيمة 85 جرام ذهب عيار 21، أو 595 جرام فضة — وبنحسبه هنا تلقائياً من سعر اليوم بدل رقم ثابت قديم ممكن يبقى غير دقيق. لو مجموع أموالك (نقدية + ذهب + فضة + أسهم + مستحقات لك) بعد خصم الديون اللي عليك وصل للنصاب أو تعداه، ومر عليه حول، الزكاة = 2.5% من الصافي.</p>
+  <p>في بعض التفاصيل (زكاة الذهب المستخدم كزينة يومية، وزكاة الأسهم طويلة الأجل مقابل التجارية) فيه خلاف فقهي معروف بين العلماء — الحاسبة بتديك خيارات تحسب على أساسها، لكنها مش فتوى. راجع دار الإفتاء أو أهل العلم لحالتك تحديداً.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/zakat.js"></script>{% endblock %}
